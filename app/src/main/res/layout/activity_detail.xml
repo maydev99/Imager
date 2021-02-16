@@ -70,4 +70,14 @@
         app:layout_constraintTop_toBottomOf="@+id/user_image_view"
         app:srcCompat="@drawable/ic_baseline_public_24" />
 
+    <ImageView
+        android:id="@+id/download_image_view"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/favorite_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/user_image_view"
+        app:srcCompat="@drawable/ic_baseline_cloud_download_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

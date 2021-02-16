@@ -1,12 +1,16 @@
 package com.bombadu.imager
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.bombadu.imager.databinding.ActivityDetailBinding
 import com.squareup.picasso.Picasso
+import java.io.File
 
 class DetailActivity : AppCompatActivity() {
 
@@ -25,6 +29,35 @@ class DetailActivity : AppCompatActivity() {
             intent.data = Uri.parse(largeImage)
             startActivity(intent)
         }
+
+        binding.downloadImageView.setOnClickListener {
+            saveImage()
+        }
+
+        binding.shareImageView.setOnClickListener {
+            shareImageUrl(largeImage)
+        }
+    }
+
+    private fun shareImageUrl(url: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+
+        intent.putExtra(Intent.EXTRA_TEXT, "Url for  Image\n$url")
+        intent.type = "text/plain"
+        startActivity(intent)
+    }
+
+    private fun saveImage() {
+        val iv = binding.imageView
+        val bitmap = (iv.drawable as BitmapDrawable).bitmap
+
+        Toast.makeText(this, "Image NOT saved", Toast.LENGTH_SHORT).show()
+
+
+    }
+
+    private fun getTimeStamp(): String {
+        return System.currentTimeMillis().toString()
     }
 
     private fun getBundle() {
@@ -35,7 +68,8 @@ class DetailActivity : AppCompatActivity() {
 
         Picasso.get().load(largeImage).into(binding.imageView)
         if (userImage.isNullOrEmpty()) {
-            Picasso.get().load("https://png.pngtree.com/png-vector/20190419/ourmid/pngtree-yellow-smiley-face-png-image_960884.jpg")
+            Picasso.get()
+                .load("https://lh3.googleusercontent.com/proxy/yMy9op1shOcqPqeR9tBjUIyXES8XPeDu-RX6wLChJSgiWl8jgI2ca9ds4uRmz_1oE9omrLKnbEcklcOKubn95q_k6UBkIxOsqO4lo0LJObeWWV6FOzj6pNnZt-8JDWc")
                 .into(binding.userImageView)
         } else {
             Picasso.get().load(userImage).into(binding.userImageView)
@@ -43,4 +77,6 @@ class DetailActivity : AppCompatActivity() {
 
         binding.usernameTextView.text = username
     }
+
+
 }

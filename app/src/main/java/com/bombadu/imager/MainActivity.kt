@@ -1,6 +1,7 @@
 package com.bombadu.imager
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupRecyclerView()
+        loadSearchQuery()
 
 
 
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     val query = binding.imageSearchEditText.text.toString()
                     makeSearch(query)
+                    saveSearchQuery(query)
 
                     true
                 }
@@ -59,6 +62,21 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
+    }
+
+    private fun loadSearchQuery() {
+        val prefs = getSharedPreferences("query", MODE_PRIVATE)
+        val query = prefs.getString("query", "cat")
+        query?.let { makeSearch(it) }
+    }
+
+
+    private fun saveSearchQuery(query: String) {
+        val prefs = getSharedPreferences("query", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putString("query", query)
+        editor.apply()
 
     }
 
